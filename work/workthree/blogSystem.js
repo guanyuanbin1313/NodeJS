@@ -184,15 +184,3 @@ http.createServer(function (req, res) {
 }).listen(8083);
 console.log("server is listening 8083");
 
-function showImage(img, res) {
-
-}
-
-
-function showCss(pn, res) {
-
-}
-
-function showJs(res) {
-
-}
