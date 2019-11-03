@@ -97,23 +97,7 @@
         $.get("http://localhost:8083/getchapterlist", function(data) {
             $(".newblog").html("");
             for(let i = 0; i < data.length; i++) {
-                let liNode =
-                    "    <div class=\"oneblog\">\n" +
-                    "        <h2><a title=\"<%=chapterName%>\" href=\"/\"><%=chapterName%></a></h2>\n" +
-                    "        <figure><img src=<%=imgPath%> border='0' width='120' height='120' alt='<%=chapterName%>'></figure>\n" +
-                    "        <ul class=\"nlist\">\n" +
-                    "            <p><%=chapterDes%></p>\n" +
-                    "            <a title=\"<%=chapterName%>\" href=\"http://localhost:8083/detail?chapterId=<%=chapterId%>\" target=\"_blank\" class=\"readmore\">阅读全文>></a>\n" +
-                    "        </ul>\n" +
-                    "        <p class=\"dateview\">\n" +
-                    "            <span>发布时间：<%=publishTimer%></span>\n" +
-                    "            <span>作者：<%=author%></span>\n" +
-                    "            <span>分类：[<a href=\"/\">悠客</a>]</span>\n" +
-                    "            <span class=\"nl\">浏览（<%=views%>）</span>\n" +
-                    "            <span class=\"n2\">评论（<a href=\"/\">0</a>）</span>\n" +
-                    "            <div class=\"line\"></div>\n" +
-                    "        </p>\n" +
-                    "    </div>";
+                let liNode = " <div class=\"oneblog\">\n" + " <h2><a title=\"<%=chapterName%>\" href=\"/\"><%=chapterName%></a></h2>\n" +"  <figure><img src=<%=imgPath%> border='0' width='120' height='120' alt='<%=chapterName%>'></figure>\n" + " <ul class=\"nlist\">\n" + " <p><%=chapterDes%></p>\n" +"<a title=\"<%=chapterName%>\" href=\"http://localhost:8083/detail?chapterId=<%=chapterId%>\" target=\"_blank\" class=\"readmore\">阅读全文>></a>\n" + "  </ul>\n" + "  <p class=\"dateview\">\n" + "  <span>发布时间：<%=publishTimer%></span>\n" +"  <span>作者：<%=author%></span>\n" +"  <span>分类：[<a href=\"/\">悠客</a>]</span>\n" +"  <span class=\"nl\">浏览（<%=views%>）</span>\n" + "  <span class=\"n2\">评论（<a href=\"/\">0</a>）</span>\n" + "  <div class=\"line\"></div>\n" +"  </p>\n" + "  </div>";
                 let bt = baidu.template;
                 let html0 = baidu.template(liNode, data[i]);
                 $(".newblog").append(html0);

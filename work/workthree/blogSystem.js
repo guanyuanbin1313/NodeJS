@@ -47,8 +47,7 @@ let chapterList = [{
 ];
 
 //用户信息
-let userList = [
-    {
+let userList = [{
         username: "admin",
         pwd: "admin"
     }, {
@@ -72,158 +71,128 @@ http.createServer(function (req, res) {
     let css = /(^\/css).*/gi;
 
     if (img.test(pathName)) {
-        showImage(pathName, res);
+        let imgPath = path.join(__dirname, pathName);
+        let imgContent = fs.readFileSync(imgPath);
+        res.writeHead(200, {
+            "Content-Type": "image/jpg"
+        });
+        res.write(imgContent);
+        res.end();
+    } else if (pathName == "/login_bg.jpg") {
+        var imgPath = path.join(__dirname, "login_bg.jpg");
+        var imgContent = fs.readFileSync(imgPath);
+        res.writeHead(200, {
+            "Content-type": "image/jpg"
+        });
+        res.write(imgContent);
+        res.end();
     } else if (css.test(pathName)) {
-        showCss(pathName, res);
+        let cssPath = path.join(__dirname, pathName);
+        let cssContent = fs.readFileSync(cssPath);
+        res.writeHead(200, {
+            "Content-Type": "text/css"
+        });
+        res.write(cssContent);
+        res.end();
     } else if (pathName == "/js/baiduTemplate.js") {
-        showJs(res);
+        let jsPath = path.join(__dirname, "./js/baiduTemplate.js");
+        let jsContent = fs.readFileSync(jsPath);
+        res.writeHead(200, {
+            "Content-Type": "text/javascript"
+        });
+        res.write(jsContent);
+        res.end();
     } else if (pathName == "/list") {
-        showList(res);
-    } else if (pathName == "/login") {
-        showLogin(res);
-    } else if (pathName == "/listmanager") {
-        showListm(res);
-    } else if (pathName == "/addChapter") {
-        showAdd(res);
-    } else if (pathName == "/login/gyb") {
-        getPwd(req, res);
+        var listPath = path.join(__dirname, "/chapterList.html")
+        var fileContent = fs.readFileSync(listPath);
+        res.writeHead(200, {
+            "content-type": "text/html"
+        });
+        res.write(fileContent);
+        res.end();
     } else if (pathName == "/detail") {
-        showDetail(res);
+        let indexPath = path.join(__dirname, "./chapter.html");
+        let fileContent = fs.readFileSync(indexPath);
+        res.writeHead(200, {
+            "Content-type": "text/html"
+        });
+        res.write(fileContent);
+        res.end();
     } else if (pathName == "/getchapterlist") {
-        showGetch(res);
-    }
+        let dataStr = JSON.stringify(chapterList);
+        res.writeHead(200, {
+            "Content-Type": "application/json"
+        });
+        res.write(dataStr);
+        res.end();
+    } else if (pathName == "/login") {
+        var loginPath = path.join(__dirname, "/login.html")
+        var fileContent = fs.readFileSync(loginPath);
+        res.writeHead(200, {
+            "Content-type": "text/html"
+        });
+        res.write(fileContent);
+        res.end();
+    } else if (pathName == "/listmanager") {
+        var listmPath = path.join(__dirname, "/list.html")
+        var fileContent = fs.readFileSync(listmPath);
+        res.writeHead(200, {
+            "content-type": "text/html"
+        })
+        res.write(fileContent);
+        res.end();
+    } else if (pathName == "/addChapter") {
+        var listPath = path.join(__dirname, "/addChapter.html")
+        var fileContent = fs.readFileSync(listPath);
+        res.writeHead(200, {
+            "content-type": "text/html"
+        })
+        res.write(fileContent);
+        res.end();
+    } else if (pathName == "/login/gyb") {
+        var postData = "";
+        req.on("data", function (chunk) {
+            postData += chunk;
+        })
+        req.on("end", function () {
+            postData = querystring.parse(postData);
+            let username = postData.username;
+            let pwd = postData.password;
+            for (var i = 0; i < userList.length; i++) {
+                if (username == userList[i].username && pwd == userList[i].pwd) {
+                    let str = "登陆成功";
+                    str = JSON.stringify(str);
+                    res.writeHead(200, {
+                        "Content-Type": "text/plain"
+                    });
+                    res.write(str);
+                    res.end();
+                    return;
+                }
+            }
+            let err = "用户名或密码错误！";
+            err = JSON.stringify(err);
+            res.writeHead(200, {
+                "Content-Type": "text/plain"
+            });
+            res.write(err);
+            res.end();
 
+        })
+    }
 
 }).listen(8083);
 console.log("server is listening 8083");
 
 function showImage(img, res) {
-    let imgPath = path.join(__dirname, img);
-    let imgContent = fs.readFileSync(imgPath);
-    res.writeHead(200, {
-        "Content-Type": "image/jpg"
-    });
-    res.write(imgContent);
-    res.end();
+
 }
 
 
 function showCss(pn, res) {
-    let cssPath = path.join(__dirname, pn);
-    let cssContent = fs.readFileSync(cssPath);
-    res.writeHead(200, {
-        "Content-Type": "text/css"
-    });
-    res.write(cssContent);
-    res.end();
+
 }
 
 function showJs(res) {
-    let jsPath = path.join(__dirname, "./js/baiduTemplate.js");
-    let jsContent = fs.readFileSync(jsPath);
-    res.writeHead(200, {
-        "Content-Type": "text/javascript"
-    });
-    res.write(jsContent);
-    res.end();
-}
 
-//列表页:chapterList.html
-function showList(res) {
-    var listPath = path.join(__dirname, "/chapterList.html")
-    var fileContent = fs.readFileSync(listPath);
-    res.writeHead(200, {
-        "content-type": "text/html"
-    });
-    res.write(fileContent);
-    res.end();
-
-}
-
-//后台登录页面:login.html
-function showLogin(res) {
-    var loginPath = path.join(__dirname, "/login.html")
-    var fileContent = fs.readFileSync(loginPath);
-    res.writeHead(200, {
-        "Content-type": "text/html"
-    });
-    res.write(fileContent);
-    res.end();
-}
-
-//后台文章列表页面:list.html
-function showListm(res) {
-    var listmPath = path.join(__dirname, "/list.html")
-    var fileContent = fs.readFileSync(listmPath);
-    res.writeHead(200, {
-        "content-type": "text/html"
-    })
-    res.write(fileContent);
-    res.end();
-}
-
-//后台添加文章页面:addChapter.html
-function showAdd(res) {
-    var listPath = path.join(__dirname, "/addChapter.html")
-    var fileContent = fs.readFileSync(listPath);
-    res.writeHead(200, {
-        "content-type": "text/html"
-    })
-    res.write(fileContent);
-    res.end();
-}
-
-
-
-//全文
-function showDetail(res) {
-    let indexPath = path.join(__dirname, "./chapter.html");
-    let fileContent = fs.readFileSync(indexPath);
-    res.writeHead(200, {
-        "Content-type": "text/html"
-    });
-    res.write(fileContent);
-    res.end();
-}
-
-function showGetch(res) {
-    let dataStr = JSON.stringify(chapterList);
-    res.writeHead(200, {
-        "Content-Type": "application/json"
-    });
-    res.write(dataStr);
-    res.end();
-}
-
-
-function getPwd(req, res) {
-    var postData = "";
-    req.on("data", function (chunk) {
-        postData += chunk;
-    })
-    req.on("end", function () {
-        postData = querystring.parse(postData);
-        let username = postData.username;
-        let pwd = postData.password;
-        for (var i = 0; i < userList.length; i++) {
-            if (username == userList[i].username && pwd == userList[i].pwd) {
-                let str = "登陆成功";
-                str = JSON.stringify(str);
-                res.writeHead(200, {
-                    "Content-Type": "text/plain"
-                });
-                res.write(str);
-                res.end();
-                return;
-            }
-        }
-        let err = "用户名或密码错误！";
-        err = JSON.stringify(err);
-        res.writeHead(200, {
-            "Content-Type": "text/plain"
-        });
-        res.write(err);
-        res.end();
-
-    })
 }
