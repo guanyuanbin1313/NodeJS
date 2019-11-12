@@ -17,11 +17,15 @@ router.post('/signin',function(req,res,next){
     res.render('list',{data});
   }
   if(req.body.username='' || req.body.pwd==''){
-    res.setHeader('Content-Type', 'text/plain;charset=utf-8');
+    res.writeHead(200, {
+      "content-type": "text/plain;charset=utf-8"
+  })
     res.end("用户名或密码不为空")
   }
   else{
-    res.setHeader('Content-Type', 'text/plain;charset=utf-8');
+    res.writeHead(200, {
+      "content-type": "text/plain;charset=utf-8"
+  })
     res.end("用户名或密码错误")
   }
 });
