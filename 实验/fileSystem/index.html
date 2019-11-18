@@ -182,9 +182,13 @@
             var dataList = JSON.parse(data);
             console.log(dataList);
             for (var i = 0; i < dataList.length; i++) {
-                var liNode = "<li><div class='" + dataList[i].fileType + "'></div>" + "<a href=''###>" +
-                    dataList[i].fileName + "</a>" + "<span>" + dataList[i].fileSize + "</span>" +
-                    "<span>" + dataList[i].createTime + "</span>" + "<a href='###'>删除</a></li>";
+                var liNode = 
+                "<li><div class='" + dataList[i].fileType + "'></div>" + 
+                    "<a href=''###>" +
+                    dataList[i].fileName + "</a>" + 
+                    "<span>" + dataList[i].fileSize + "</span>" +
+                    "<span>" + dataList[i].createTime + "</span>" + 
+                    "<a href='###'>删除</a></li>";
                 $("ul").append(liNode);
             }
 

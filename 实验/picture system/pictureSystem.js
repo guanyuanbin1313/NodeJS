@@ -1,9 +1,9 @@
-const htttp = require("http");
+const http = require("http");
 const fs = require("fs");
 const url = require("url");
 const path = require("path");
 
-htttp.createServer(function (req, res) {
+http.createServer(function (req, res) {
     var urlObj = url.parse(req.url);
     var pathName = urlObj.pathname;
     if (pathName == "/") {
@@ -70,7 +70,7 @@ function uploadFile(req, res) {
             imgData += bufArr[i];
         }
         var buf=Buffer.from(imgData,"binary");
-        var timer=(new Data()).getTime();
+        var timer=(new Date()).getTime();
         fs.writeFileSync(__dirname, "\\upload\\"+timer+".png", imgData, {
             "encoding": "binary"
         });

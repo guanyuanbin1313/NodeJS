@@ -1,0 +1,11 @@
+1,nrm用来切换第三方模块下载的服务器
+（网速较慢，原来的服务器上不存在该模块）
+2.install date-now  在当前目录安装
+模块会被添加到
+install  -g全局安装
+
+3.
+nvmw ls  显示所有的安装版本
+nvmw install v4.5.0
+nvmw use node版本号 切换node的版本
+
